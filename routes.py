@@ -4,6 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models import User
 from database import db
 
+# App Blueprint
 app_routes = Blueprint('app_routes', __name__)
 
 # Home Page

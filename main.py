@@ -4,10 +4,13 @@ from database import db
 from models import User
 from routes import app_routes
 
+# Criar App Flask
 app = Flask(__name__)
 
+# Configurações Flask e SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///neotask.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = '>}Xq$=}xgO2YM%M8z6S#'
 
 # Inicializa o banco de dados
 db.init_app(app)
