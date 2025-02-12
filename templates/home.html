@@ -3,27 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Gerenciador de Tarefas</title>
-    <link rel="stylesheet" href="../static/css/home.css">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="/static/css/home.css">
 </head>
 <body>
 
     <div class="background">
+        <header>
+            <!-- <h1>Task Manager</h1> -->
+        </header>
 
-        <div class="content">
-            <div class="card">
-                <h2>NeoTask</h2>
-                <p>Manage your tasks quickly and intuitively</p>
+        <main class="content">
+            <section class="card">
+                <h2>Task Manager</h2>
+                <p>Organize and manage your tasks</p>
                 <div class="buttons">
-                    <a href="/login" class="btn">Iniciar Sessão</a>
-                    <a href="/register" class="btn">Criar Conta</a>
+                    <a class="btn" href="/login">Login</a>
+                    <a class="btn" href="/register">Create Account</a>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            <section class="code-team">
+                <h3>Development Team</h3>
+                <ul>
+                    <li>Tiago Vilhena (Nº26) - Backend, Database</li>
+                    <li>Ricardo Palma (Nº22) - Frontend</li>
+                    <li>Afonso Barreto (Nº1) - Frontend</li>
+                </ul>
+            </section>
+        </main>
 
         <footer class="footer">
-            <p>&copy; 2025 Gerenciador de Tarefas. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Task Manager. Todos os direitos reservados.</p>
         </footer>
     </div>
 

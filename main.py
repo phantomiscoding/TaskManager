@@ -8,7 +8,7 @@ from routes import app_routes
 app = Flask(__name__)
 
 # Configurações Flask e SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///neotask.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_manager.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '>}Xq$=}xgO2YM%M8z6S#'
 
@@ -20,7 +20,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'app_routes.login'
 login_manager.init_app(app)
 
-# Registra o Blueprint
+# Regista o Blueprint
 app.register_blueprint(app_routes)
 
 @login_manager.user_loader
