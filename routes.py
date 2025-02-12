@@ -57,7 +57,7 @@ def register():
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(username = username, password = hashed_password)
         db.session.add(new_user)
-        db.session.commit
+        db.session.commit()
 
         # Success Alert
         flash('User registed successfully', 'success')

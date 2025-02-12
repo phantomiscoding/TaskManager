@@ -12,10 +12,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_manager.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '>}Xq$=}xgO2YM%M8z6S#'
 
-# Inicializa o banco de dados
+# Init Database
 db.init_app(app)
 
-# Configuração do Flask-Login
+# Flask-Login Config
 login_manager = LoginManager()
 login_manager.login_view = 'app_routes.login'
 login_manager.init_app(app)
