@@ -17,8 +17,8 @@ db.init_app(app)
 
 # Flask-Login Config
 login_manager = LoginManager()
-login_manager.login_view = 'app_routes.login'
 login_manager.init_app(app)
+login_manager.login_view = "app_routes.login"
 
 # Regista o Blueprint
 app.register_blueprint(app_routes)

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tasks.css') }}">
+</head>
+<body>
+   <div class="container">
+     <div class="box">
+        <h2>To Do List</h2>
+        <input type="text" placeholder="Write here" id="inputBX">
+        <ul id="list">
+            {% for task in tasks %}
+                <li data-id="{{ task.id }}">
+                    {{ task.description }}
+                    <i class="delete">🗑️</i>
+                </li>
+            {% endfor %}
+        </ul>
+     </div>
+   </div>
+
+   <script>
+      let inputBX = document.querySelector("#inputBX");
+      let list = document.querySelector("#list");
+
+      // Adicionar evento a todos os botões delete existentes
+      document.querySelectorAll(".delete").forEach(button => {
+          button.addEventListener("click", function(event) {
+              event.stopPropagation();
+              let listItem = this.parentElement;
+              let taskId = listItem.getAttribute("data-id");
+              deleteTask(taskId, listItem);
+          });
+      });
+
+      inputBX.addEventListener("keyup", function(event) {
+         if (event.key === "Enter" && this.value.trim() !== "") {
+            saveTask(this.value.trim());
+            this.value = "";
+         }
+      });
+
+      function saveTask(taskText) {
+         fetch("/add_task", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ description: taskText })
+         })
+         .then(response => response.json())
+         .then(task => {
+            addItem(task.description, task.id);
+         })
+         .catch(error => console.error("Erro ao adicionar tarefa:", error));
+      }
+
+      function addItem(taskText, taskId) {
+         let listItem = document.createElement("li");
+         listItem.setAttribute("data-id", taskId);
+         listItem.innerHTML = `${taskText} <i class="delete">🗑️</i>`;
+
+         listItem.querySelector(".delete").addEventListener("click", function(event) {
+            event.stopPropagation();
+            deleteTask(taskId, listItem);
+         });
+
+         list.appendChild(listItem);
+      }
+
+      function deleteTask(taskId, listItem) {
+         fetch(`/delete_task/${taskId}`, { method: "DELETE" })
+         .then(response => response.json())
+         .then(data => {
+            if (data.success) {
+                listItem.remove();
+            } else {
+                console.error("Erro ao remover tarefa:", data.error);
+            }
+         })
+         .catch(error => console.error("Erro ao remover tarefa:", error));
+      }
+   </script>
+</body>
+</html>
