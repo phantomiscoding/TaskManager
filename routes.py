@@ -85,6 +85,16 @@ def delete_task(task_id):
         return jsonify({"success": True})
     return jsonify({"success": False, "error": "Tarefa não encontrada"}), 404
 
+@app_routes.route('/complete_task/<int:task_id>', methods=['POST'])
+@login_required
+def complete_task(task_id):
+    task = Task.query.filter_by(id=task_id, user_id=current_user.id).first()
+    if task:
+        task.completed = True
+        db.session.commit()
+        return jsonify({"message": "Tarefa concluída com sucesso"}), 200
+    return jsonify({"message": "Tarefa não encontrada"}), 404
+
 @app_routes.route('/tasks')
 @login_required
 def tasks():

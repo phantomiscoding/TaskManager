@@ -13,12 +13,13 @@
         <input type="text" placeholder="Write here" id="inputBX">
         <ul id="list">
             {% for task in tasks %}
-                <li data-id="{{ task.id }}">
-                    {{ task.description }}
-                    <i class="delete">🗑️</i>
-                </li>
+               <li data-id="{{ task.id }}" {% if task.completed %} class="done" {% endif %}>
+                  {{ task.description }}
+                  <i class="delete"></i>
+               </li>
             {% endfor %}
-        </ul>
+     
+         </ul>
      </div>
    </div>
 
@@ -26,7 +27,6 @@
       let inputBX = document.querySelector("#inputBX");
       let list = document.querySelector("#list");
 
-      // Adicionar evento a todos os botões delete existentes
       document.querySelectorAll(".delete").forEach(button => {
           button.addEventListener("click", function(event) {
               event.stopPropagation();
@@ -59,7 +59,11 @@
       function addItem(taskText, taskId) {
          let listItem = document.createElement("li");
          listItem.setAttribute("data-id", taskId);
-         listItem.innerHTML = `${taskText} <i class="delete">🗑️</i>`;
+         listItem.innerHTML = `${taskText} <i class="delete"></i>`;
+
+         listItem.addEventListener("click", function(){
+            completeTask(taskId, listItem)
+         });
 
          listItem.querySelector(".delete").addEventListener("click", function(event) {
             event.stopPropagation();
@@ -68,6 +72,24 @@
 
          list.appendChild(listItem);
       }
+
+      function completeTask(taskId, listItem) {
+         fetch(`/complete_task/${taskId}`, { 
+            method: "POST" 
+         })
+         .then(response => {
+            if (!response.ok) {
+                  throw new Error("Erro ao marcar a tarefa como concluída");
+            }
+            return response.json();
+         })
+         .then(data => {
+            listItem.classList.toggle("done");
+            console.log(data.message);
+         })
+         .catch(error => console.error("Erro:", error));
+      }
+
 
       function deleteTask(taskId, listItem) {
          fetch(`/delete_task/${taskId}`, { method: "DELETE" })
