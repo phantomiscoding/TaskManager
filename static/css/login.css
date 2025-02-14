@@ -1,101 +1,138 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing:border-box;
-    font-family: "Helvetica", sans-serif;
+/* Reset de estilos básicos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica", sans-serif;
 }
-body{
+
+/* Estilização do corpo da página */
+body {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url("../img/login-background.jpg") no-repeat;
-  background-size: cover;
-  background-position: center;
+  background: url("../img/login-background.jpg") no-repeat center/cover;
 }
-.wrapper{
-  width: 420px; 
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, .2);
+
+/* Estilização do container principal */
+.wrapper {
+  width: 420px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   color: #fff;
   border-radius: 12px;
   padding: 30px 40px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-.wrapper h1{
+
+.wrapper h1 {
   font-size: 36px;
-  text-align: center; 
+  text-align: center;
+  margin-bottom: 20px;
 }
-.wrapper .input-box{
+
+/* Estilização das caixas de input */
+.input-box {
+  position: relative;
   width: 100%;
   height: 50px;
-  
-  margin: 30px 0;
+  margin: 20px 0;
 }
-.input-box input{
+
+.input-box input {
   width: 100%;
   height: 100%;
   background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(255, 255, 255, .2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 40px;
   font-size: 16px;
   color: #fff;
-  padding: 20px 45px 20px 20px;
+  padding: 15px 20px;
+  outline: none;
+  transition: border 0.3s ease-in-out;
 }
-.input-box input::placeholder{
-  color: #fff;
+
+.input-box input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
-.input-box i{
+
+.input-box input:focus {
+  border: 2px solid #fff;
+}
+
+.input-box i {
   position: absolute;
   right: 20px;
-  top: 30%;
-  transform: translate(-50);
-  font-size: 20px;
-
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
 }
-.wrapper .remember-forgot{
+
+/* Estilização da seção lembrar/esquecer senha */
+.remember-forgot {
   display: flex;
   justify-content: space-between;
-  font-size: 14.5px;
-  margin: -15px 0 15px;
+  font-size: 14px;
+  margin: -10px 0 20px;
 }
-.remember-forgot label input{
-  accent-color: #fff;
-  margin-right: 3px;
 
+.remember-forgot label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
-.remember-forgot a{
+
+.remember-forgot input {
+  accent-color: #fff;
+  cursor: pointer;
+}
+
+.remember-forgot a {
   color: #fff;
   text-decoration: none;
-
+  transition: 0.3s;
 }
-.remember-forgot a:hover{
+
+.remember-forgot a:hover {
   text-decoration: underline;
 }
-.wrapper .btn{
+
+/* Botão de login */
+.btn {
   width: 100%;
   height: 45px;
   background: #fff;
   border: none;
-  outline: none;
   border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  cursor: pointer;
   font-size: 16px;
   color: #333;
   font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s;
 }
-.wrapper .register-link{
-  font-size: 14.5px;
+
+.btn:hover {
+  background: #ddd;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Link de registro */
+.register-link {
+  font-size: 14px;
   text-align: center;
   margin: 20px 0 15px;
 }
-.register-link p a{
+
+.register-link a {
   color: #fff;
-  text-decoration: none;
   font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
 }
-.register-link p a:hover{
+
+.register-link a:hover {
   text-decoration: underline;
 }
