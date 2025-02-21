@@ -12,7 +12,7 @@
     <div class="container">
         <div class="box">
             <h2>To Do List</h2>
-            <input type="text" placeholder="Add a new task..." id="inputBX">
+            <input type="text" placeholder="Enter a new task..." id="inputBX">
             <ul id="list">
                 {% for task in tasks %}
                     <li data-id="{{ task.id }}" class="task-item {% if task.completed %}done{% endif %}">
@@ -27,133 +27,7 @@
         </div>
     </div>
 
-    <script>
-        let inputBX = document.querySelector("#inputBX");
-        let list = document.querySelector("#list");
-
-        document.querySelectorAll(".complete-btn").forEach(button => {
-            button.addEventListener("click", function (event) {
-                event.stopPropagation();
-                let listItem = this.closest("li");
-                let taskId = listItem.getAttribute("data-id");
-                completeTask(taskId, listItem);
-            });
-        });
-
-        document.querySelectorAll(".delete").forEach(button => {
-            button.addEventListener("click", function (event) {
-                event.stopPropagation();
-                let listItem = this.closest("li");
-                let taskId = listItem.getAttribute("data-id");
-                deleteTask(taskId, listItem);
-            });
-        });
-
-        inputBX.addEventListener("keyup", function (event) {
-            if (event.key === "Enter" && this.value.trim() !== "") {
-                addItem(this.value.trim());
-                this.value = "";
-            }
-        });
-
-        function addItem(taskText, taskId, completed = false) {
-            // Criar o item da lista
-            let listItem = document.createElement("li");
-            listItem.setAttribute("data-id", taskId);
-            listItem.classList.add("task-item");
-
-            if (completed) {
-                listItem.classList.add("done");
-            }
-
-            listItem.innerHTML = `
-                <span class="task-text">${taskText}</span>
-                <div class="buttons">
-                    <button class="complete-btn">✔</button>
-                    <button class="delete">❌</button>
-                </div>
-            `;
-
-            // Adicionar eventos para os botões de completar e excluir
-            listItem.querySelector(".complete-btn").addEventListener("click", function (event) {
-                event.stopPropagation();
-                completeTask(taskId, listItem);
-            });
-
-            listItem.querySelector(".delete").addEventListener("click", function (event) {
-                event.stopPropagation();
-                deleteTask(taskId, listItem);
-            });
-
-            // Adicionar o item à lista visível
-            list.appendChild(listItem);
-
-            // Enviar o novo item para o servidor via fetch
-            fetch("/add_task", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    taskId: taskId,
-                    description: taskText,  // Alterei de 'taskText' para 'description'
-                    completed: completed
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.success) {
-                        console.error("Erro ao adicionar a tarefa no servidor");
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro na requisição:", error);
-                });
-        }
-
-        function completeTask(taskId, listItem) {
-    fetch(`/complete_task/${taskId}`, { method: "POST" })
-        .then(response => {
-            // Verificando se a resposta foi bem-sucedida (status 200)
-            if (!response.ok) {
-                throw new Error("Erro ao marcar a tarefa como concluída");
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Verificando se a resposta do servidor indicou sucesso
-            if (data.success) {
-                // Alterna a classe "done" dependendo do status da tarefa
-                listItem.classList.toggle("done", data.completed);
-                console.log(`Tarefa ${taskId} atualizada: ${data.completed ? 'Concluída' : 'Não concluída'}`);
-            } else {
-                console.error(data.error || "Erro desconhecido");
-            }
-        })
-        .catch(error => {
-            console.error("Erro:", error);
-        });
-}
-
-
-        function deleteTask(taskId, listItem) {
-            fetch(`/delete_task/${taskId}`, { method: "DELETE" })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Erro HTTP: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        listItem.remove();
-                    } else {
-                        console.error("Erro ao remover tarefa:", data.error);
-                    }
-                })
-                .catch(error => console.error("Erro ao remover tarefa:", error));
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 
 </html>

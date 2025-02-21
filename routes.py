@@ -79,35 +79,29 @@ def register():
 @app_routes.route('/add_task', methods=['POST'])
 @login_required
 def add_task():
-    # Tentando pegar os dados JSON da requisição
     try:
-        # Verificando se a requisição tem dados no formato JSON
         data = request.get_json()
-        if data is None:
-            return jsonify({"error": "Formato de dados inválido. Certifique-se de enviar JSON"}), 400
-    except Exception as e:
-        return jsonify({"error": "Falha ao processar o JSON", "message": str(e)}), 400  # Caso não consiga processar o JSON
+        if not data:
+            return jsonify({"success": False, "error": "Formato de dados inválido. Certifique-se de enviar JSON"}), 400
 
-    # Verifica se a chave "description" existe no JSON e se não está vazia
-    if 'description' not in data or not data['description'].strip():
-        return jsonify({"error": "Descrição é obrigatória"}), 400  # Retorna um erro se a descrição estiver faltando ou estiver vazia
+        if 'description' not in data or not data['description'].strip():
+            return jsonify({"success": False, "error": "Descrição é obrigatória"}), 400
 
-    try:
-        # Criação de uma nova tarefa
         new_task = Task(description=data["description"], user_id=current_user.id)
         db.session.add(new_task)
         db.session.commit()
 
-        # Retorna a tarefa criada com status 201
         return jsonify({
-            "id": new_task.id,
+            "success": True,  # Adicionado para o frontend validar
+            "taskId": new_task.id,  # Mudado de "id" para "taskId" para corresponder ao JavaScript
             "description": new_task.description,
             "completed": new_task.completed
         }), 201
 
     except Exception as e:
-        db.session.rollback()  # Caso ocorra algum erro, desfaz a transação
-        return jsonify({"error": "Erro ao adicionar a tarefa", "message": str(e)}), 500
+        db.session.rollback()
+        return jsonify({"success": False, "error": "Erro ao adicionar a tarefa", "message": str(e)}), 500
+
 
 @app_routes.route('/delete_task/<int:task_id>', methods=['DELETE'])
 @login_required
